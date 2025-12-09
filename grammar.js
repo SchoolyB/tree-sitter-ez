@@ -405,10 +405,6 @@ module.exports = grammar({
     // Comments
     comment: $ => /\/\/[^\n]*/,
 
-    block_comment: $ => seq(
-      '/*',
-      /[^*]*\*+([^/*][^*]*\*+)*/,
-      '/',
-    ),
+    block_comment: $ => /\/\*[^*]*\*+([^\/*][^*]*\*+)*\//,
   },
 });

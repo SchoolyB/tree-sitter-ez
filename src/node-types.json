@@ -64,6 +64,10 @@
           "named": true
         },
         {
+          "type": "raw_string",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -166,6 +170,10 @@
           "named": true
         },
         {
+          "type": "raw_string",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -242,6 +250,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "raw_string",
           "named": true
         },
         {
@@ -324,6 +336,10 @@
           "named": true
         },
         {
+          "type": "raw_string",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -403,6 +419,10 @@
           "named": true
         },
         {
+          "type": "raw_string",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -479,6 +499,10 @@
         },
         {
           "type": "loop_statement",
+          "named": true
+        },
+        {
+          "type": "module_declaration",
           "named": true
         },
         {
@@ -570,6 +594,10 @@
             "named": true
           },
           {
+            "type": "raw_string",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -642,6 +670,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "raw_string",
           "named": true
         },
         {
@@ -769,6 +801,10 @@
           "named": true
         },
         {
+          "type": "raw_string",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -845,6 +881,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "raw_string",
           "named": true
         },
         {
@@ -957,6 +997,10 @@
           "named": true
         },
         {
+          "type": "raw_string",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -1041,6 +1085,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "raw_string",
           "named": true
         },
         {
@@ -1161,6 +1209,10 @@
           "named": true
         },
         {
+          "type": "raw_string",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -1249,6 +1301,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "raw_string",
           "named": true
         },
         {
@@ -1376,6 +1432,10 @@
           "named": true
         },
         {
+          "type": "raw_string",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -1457,6 +1517,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "raw_string",
           "named": true
         },
         {
@@ -1551,6 +1615,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "raw_string",
           "named": true
         },
         {
@@ -1674,6 +1742,10 @@
           "named": true
         },
         {
+          "type": "raw_string",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -1686,6 +1758,22 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "module_declaration",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1792,6 +1880,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "raw_string",
           "named": true
         },
         {
@@ -1935,6 +2027,10 @@
           "named": true
         },
         {
+          "type": "raw_string",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -1948,6 +2044,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "raw_string",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "return_statement",
@@ -2014,6 +2115,10 @@
           "named": true
         },
         {
+          "type": "raw_string",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -2046,7 +2151,6 @@
   {
     "type": "source_file",
     "named": true,
-    "root": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -2106,6 +2210,10 @@
         },
         {
           "type": "loop_statement",
+          "named": true
+        },
+        {
+          "type": "module_declaration",
           "named": true
         },
         {
@@ -2241,6 +2349,10 @@
           "named": true
         },
         {
+          "type": "raw_string",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -2366,6 +2478,10 @@
           "named": true
         },
         {
+          "type": "raw_string",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -2457,6 +2573,10 @@
         },
         {
           "type": "range_expression",
+          "named": true
+        },
+        {
+          "type": "raw_string",
           "named": true
         },
         {
@@ -2615,13 +2735,16 @@
     "named": false
   },
   {
+    "type": "`",
+    "named": false
+  },
+  {
     "type": "as_long_as",
     "named": false
   },
   {
     "type": "block_comment",
-    "named": true,
-    "extra": true
+    "named": true
   },
   {
     "type": "bool",
@@ -2641,8 +2764,7 @@
   },
   {
     "type": "comment",
-    "named": true,
-    "extra": true
+    "named": true
   },
   {
     "type": "const",
@@ -2742,6 +2864,10 @@
   },
   {
     "type": "map",
+    "named": false
+  },
+  {
+    "type": "module",
     "named": false
   },
   {

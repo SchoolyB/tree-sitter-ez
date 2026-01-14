@@ -22,6 +22,7 @@ module.exports = grammar({
     source_file: $ => repeat($._statement),
 
     _statement: $ => choice(
+      $.module_declaration,
       $.import_statement,
       $.using_statement,
       $.import_and_use_statement,
@@ -40,6 +41,12 @@ module.exports = grammar({
       $.assignment_statement,
       $.expression_statement,
       $.block,
+    ),
+
+    // Module declaration (must be first in file)
+    module_declaration: $ => seq(
+      'module',
+      field('name', $.identifier),
     ),
 
     // Import statements
@@ -228,6 +235,7 @@ module.exports = grammar({
       $.identifier,
       $.number,
       $.string,
+      $.raw_string,
       $.char_literal,
       $.boolean,
       $.nil,
@@ -278,6 +286,12 @@ module.exports = grammar({
       '${',
       $._expression,
       '}',
+    ),
+
+    raw_string: $ => seq(
+      '`',
+      /[^`]*/,
+      '`',
     ),
 
     char_literal: $ => seq(

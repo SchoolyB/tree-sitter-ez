@@ -35,9 +35,11 @@ module.exports = grammar({
       $.for_each_statement,
       $.as_long_as_statement,
       $.loop_statement,
+      $.when_statement,
       $.return_statement,
       $.break_statement,
       $.continue_statement,
+      $.ensure_statement,
       $.assignment_statement,
       $.expression_statement,
       $.block,
@@ -81,6 +83,7 @@ module.exports = grammar({
 
     // Variable declaration
     variable_declaration: $ => seq(
+      optional('private'),
       choice('temp', 'const'),
       $.identifier,
       optional($.type),
@@ -89,6 +92,7 @@ module.exports = grammar({
 
     // Function declaration
     function_declaration: $ => seq(
+      optional('private'),
       'do',
       field('name', $.identifier),
       '(',
@@ -206,6 +210,28 @@ module.exports = grammar({
       $.block,
     ),
 
+    // When statement (switch/match equivalent)
+    when_statement: $ => seq(
+      optional($.attribute),
+      'when',
+      $._expression,
+      '{',
+      repeat($.is_clause),
+      optional($.default_clause),
+      '}',
+    ),
+
+    is_clause: $ => seq(
+      'is',
+      $._expression,
+      $.block,
+    ),
+
+    default_clause: $ => seq(
+      'default',
+      $.block,
+    ),
+
     return_statement: $ => prec.right(seq(
       'return',
       optional(seq($._expression, repeat(seq(',', $._expression)))),
@@ -214,6 +240,12 @@ module.exports = grammar({
     break_statement: $ => 'break',
 
     continue_statement: $ => 'continue',
+
+    // Ensure statement (like defer - runs on function exit)
+    ensure_statement: $ => prec(10, seq(
+      'ensure',
+      $.call_expression,
+    )),
 
     // Assignment
     assignment_statement: $ => seq(

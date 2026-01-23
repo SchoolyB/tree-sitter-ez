@@ -111,6 +111,7 @@ module.exports = grammar({
       optional('&'),
       field('name', $.identifier),
       field('type', $.type),
+      optional(seq('=', $._expression)),
     ),
 
     return_types: $ => choice(

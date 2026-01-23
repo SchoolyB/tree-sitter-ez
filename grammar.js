@@ -405,7 +405,9 @@ module.exports = grammar({
 
     new_expression: $ => prec.right(seq(
       'new',
-      $.identifier,
+      '(',
+      field('type', $.identifier),
+      ')',
       optional(seq('{', optional(seq($.struct_field, repeat(seq(',', $.struct_field)))), '}')),
     )),
 

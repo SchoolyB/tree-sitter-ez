@@ -427,7 +427,7 @@ module.exports = grammar({
 
     primitive_type: $ => choice(
       'int', 'i8', 'i16', 'i32', 'i64', 'i128', 'i256',
-      'u8', 'u16', 'u32', 'u64', 'u128', 'u256',
+      'uint', 'u8', 'u16', 'u32', 'u64', 'u128', 'u256',
       'float', 'f32', 'f64',
       'bool', 'char', 'byte', 'string',
     ),

@@ -2063,6 +2063,10 @@
         },
         {
           "type": "STRING",
+          "value": "uint"
+        },
+        {
+          "type": "STRING",
           "value": "u8"
         },
         {

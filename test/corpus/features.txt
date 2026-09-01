@@ -533,3 +533,96 @@ do main() {
             (string_content)
             (escape_sequence)
             (string_content)))))))
+
+==============================
+Keyword-less variable declaration
+==============================
+
+count int = 0
+mut a, b int = 1, 2
+
+---
+
+(source_file
+  (variable_declaration
+    (identifier)
+    (type
+      (primitive_type))
+    (number
+      (integer)))
+  (variable_declaration
+    (identifier)
+    (identifier)
+    (type
+      (primitive_type))
+    (number
+      (integer))
+    (number
+      (integer))))
+
+==============================
+Alias dialect: fn, switch, case, defer
+==============================
+
+fn main() {
+    switch x {
+        case 1 { println("a") }
+        default { println("b") }
+    }
+    defer cleanup()
+}
+
+---
+
+(source_file
+  (function_declaration
+    name: (identifier)
+    (block
+      (when_statement
+        (identifier)
+        (is_clause
+          (number
+            (integer))
+          (block
+            (expression_statement
+              (call_expression
+                function: (identifier)
+                (string
+                  (string_content))))))
+        (default_clause
+          (block
+            (expression_statement
+              (call_expression
+                function: (identifier)
+                (string
+                  (string_content)))))))
+      (ensure_statement
+        (call_expression
+          function: (identifier))))))
+
+==============================
+Single-line attribute container
+==============================
+
+#[doc("x"), deprecated]
+fn old() -> int {
+    return 0
+}
+
+---
+
+(source_file
+  (function_declaration
+    (attribute_list
+      name: (identifier)
+      (string
+        (string_content))
+      name: (identifier))
+    name: (identifier)
+    (return_types
+      (type
+        (primitive_type)))
+    (block
+      (return_statement
+        (number
+          (integer))))))

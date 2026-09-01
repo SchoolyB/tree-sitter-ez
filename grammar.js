@@ -12,6 +12,7 @@ module.exports = grammar({
   conflicts: $ => [
     [$.struct_literal, $._expression],
     [$.variable_declaration],
+    [$.variable_declaration, $._expression],
     [$.block, $.array_literal],
     [$.expression_statement, $.array_literal],
     [$.named_return, $.type],
@@ -21,7 +22,6 @@ module.exports = grammar({
     source_file: $ => repeat($._statement),
 
     _statement: $ => choice(
-      $.module_declaration,
       $.import_statement,
       $.using_statement,
       $.import_and_use_statement,
@@ -43,12 +43,6 @@ module.exports = grammar({
       $.assignment_statement,
       $.expression_statement,
       $.block,
-    ),
-
-    // Module declaration (must be first in file)
-    module_declaration: $ => seq(
-      'module',
-      field('name', $.identifier),
     ),
 
     // Import statements
@@ -93,21 +87,32 @@ module.exports = grammar({
       field('type', $.type),
     ),
 
-    // Variable declaration
+    // Variable declaration. `mut` is optional — variables are mutable by
+    // default. The keyword-less form requires a type annotation so it cannot be
+    // confused with a plain assignment.
     variable_declaration: $ => seq(
       optional('private'),
-      choice('mut', 'const'),
-      $.identifier,
-      optional($.type),
-      repeat(seq(',', $.identifier, optional($.type))),
+      choice(
+        seq(
+          choice('mut', 'const'),
+          $.identifier,
+          optional($.type),
+          repeat(seq(',', $.identifier, optional($.type))),
+        ),
+        seq(
+          $.identifier,
+          $.type,
+          repeat(seq(',', $.identifier, optional($.type))),
+        ),
+      ),
       optional(seq('=', $._expression, repeat(seq(',', $._expression)))),
     ),
 
     // Function declaration
     function_declaration: $ => seq(
-      repeat($.attribute),
+      repeat($._attribute),
       optional('private'),
-      'do',
+      choice('do', 'fn'),
       field('name', $.identifier),
       '(',
       optional($.parameter_list),
@@ -148,7 +153,7 @@ module.exports = grammar({
 
     // Struct declaration
     struct_declaration: $ => seq(
-      repeat($.attribute),
+      repeat($._attribute),
       'const',
       field('name', $.identifier),
       'struct',
@@ -167,7 +172,7 @@ module.exports = grammar({
 
     // Enum declaration
     enum_declaration: $ => seq(
-      repeat($.attribute),
+      repeat($._attribute),
       'const',
       field('name', $.identifier),
       'enum',
@@ -193,8 +198,24 @@ module.exports = grammar({
       ')',
     ),
 
+    _attribute: $ => choice($.attribute, $.attribute_list),
+
     attribute: $ => seq(
       '#',
+      field('name', $.identifier),
+      optional(seq('(', $._expression, ')')),
+    ),
+
+    // Single-line container form: #[doc("x"), json, deprecated("use y")]
+    attribute_list: $ => seq(
+      '#',
+      '[',
+      $._attribute_item,
+      repeat(seq(',', $._attribute_item)),
+      ']',
+    ),
+
+    _attribute_item: $ => seq(
       field('name', $.identifier),
       optional(seq('(', $._expression, ')')),
     ),
@@ -209,7 +230,7 @@ module.exports = grammar({
     ),
 
     or_clause: $ => seq(
-      'or',
+      choice('or', 'elif'),
       $._expression,
       $.block,
     ),
@@ -259,8 +280,8 @@ module.exports = grammar({
 
     // When statement (switch/match equivalent)
     when_statement: $ => seq(
-      repeat($.attribute),
-      'when',
+      repeat($._attribute),
+      choice('when', 'switch'),
       $._expression,
       '{',
       repeat($.is_clause),
@@ -269,7 +290,7 @@ module.exports = grammar({
     ),
 
     is_clause: $ => seq(
-      'is',
+      choice('is', 'case'),
       $._expression,
       repeat(seq(',', $._expression)),
       $.block,
@@ -289,9 +310,9 @@ module.exports = grammar({
 
     continue_statement: $ => 'continue',
 
-    // Ensure statement (runs on function exit, like defer)
+    // Ensure statement (runs on function exit). `defer` is an alias.
     ensure_statement: $ => prec(11, seq(
-      'ensure',
+      choice('ensure', 'defer'),
       $.call_expression,
     )),
 
@@ -368,7 +389,7 @@ module.exports = grammar({
 
     string_content: $ => token.immediate(prec(1, /[^"\\$]+/)),
 
-    escape_sequence: $ => token.immediate(/\\[nrt\\'"0$]|\\x[0-9a-fA-F]{2}/),
+    escape_sequence: $ => token.immediate(/\\[nrtabfv\\'"0$]|\\x[0-9a-fA-F]{2}|\\u\{[0-9a-fA-F]{1,6}\}/),
 
     interpolation: $ => seq(
       '${',
